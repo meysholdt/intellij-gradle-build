@@ -1,0 +1,8 @@
+task printMessage {
+    doLast {
+        println 'I\'m building'
+    }
+}
+
+// Set the default task
+defaultTasks 'printMessage'
