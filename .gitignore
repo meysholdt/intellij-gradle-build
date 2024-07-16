@@ -1,2 +1,5 @@
 .gradle
 gradle
+*.txt
+*.log
+build

@@ -1,8 +1,38 @@
-task printMessage {
+import java.lang.management.ManagementFactory
+
+plugins {
+    id 'java'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def argsFile = file('gradle.log')
+def gradleArgs = gradle.startParameter.taskNames
+def processId = ManagementFactory.getRuntimeMXBean().getName().split("@")[0]
+def timestamp = new Date().format("yyyy-MM-dd HH:mm:ss")
+argsFile.withWriterAppend { writer ->
+    writer.writeLine("${timestamp}, Process ID: ${processId}, Task Names: ${gradleArgs.join(', ')}")
+}
+println "Startup arguments written to ${argsFile}"
+
+
+build {
     doLast {
-        println 'I\'m building'
+        def file = file('build.txt')
+        file.text = 'This is a message written by the build task.'
+        println 'foo.txt has been created with a message.'
     }
 }
 
-// Set the default task
-defaultTasks 'printMessage'
+classes {
+    doLast {
+        def file = file('classes.txt')
+        file.text = 'This is a message written by the classes task.'
+        println 'foo.txt has been created with a message.'
+    }
+}
